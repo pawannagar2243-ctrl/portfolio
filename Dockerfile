@@ -12,14 +12,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy project
+# Copy project files
 COPY . .
 
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Generate key
+# Generate APP KEY
 RUN php artisan key:generate || true
+
+# Fix permissions (AFTER copy)
+RUN chmod -R 775 storage bootstrap/cache
+
+# Clear caches
+RUN php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear
 
 EXPOSE 10000
 
