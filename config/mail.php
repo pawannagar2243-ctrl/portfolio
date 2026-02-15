@@ -35,7 +35,7 @@ return [
     |
     */
 
-    'mailers' => [
+  'mailers' => [
 
         'smtp' => [
             'transport' => 'smtp',
@@ -49,56 +49,36 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
-        'ses' => [
-            'transport' => 'ses',
+        'sendgrid' => [
+            'transport' => 'sendgrid',
+            'api_key' => env('SENDGRID_API_KEY'),
         ],
 
-        'postmark' => [
-            'transport' => 'postmark',
-            // 'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
-        ],
-
-        'resend' => [
-            'transport' => 'resend',
-        ],
-
+        'ses' => ['transport' => 'ses'],
+        'postmark' => ['transport' => 'postmark'],
+        'resend' => ['transport' => 'resend'],
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
         ],
-
         'log' => [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),
         ],
-
-        'array' => [
-            'transport' => 'array',
-        ],
-
+        'array' => ['transport' => 'array'],
         'failover' => [
             'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
+            'mailers' => ['smtp', 'log'],
             'retry_after' => 60,
         ],
-
         'roundrobin' => [
             'transport' => 'roundrobin',
-            'mailers' => [
-                'ses',
-                'postmark',
-            ],
+            'mailers' => ['ses', 'postmark'],
             'retry_after' => 60,
         ],
-
     ],
 
+    
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -110,9 +90,16 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+      'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'yourgmail@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Your Name'),
+    ],
+
+    'markdown' => [
+        'theme' => 'default',
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
     ],
 
 ];
