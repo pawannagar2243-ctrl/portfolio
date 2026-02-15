@@ -15,13 +15,16 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
+# ✅ Create sqlite database file (IMPORTANT FIX)
+RUN mkdir -p database && touch database/database.sqlite
+
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 # Generate APP KEY
 RUN php artisan key:generate || true
 
-# Fix permissions (AFTER copy)
+# Fix permissions
 RUN chmod -R 775 storage bootstrap/cache
 
 # Clear caches
