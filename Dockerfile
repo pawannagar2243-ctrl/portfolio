@@ -1,8 +1,14 @@
 FROM php:8.2-cli
 
-# Install system dependencies
+# Install system dependencies (FIXED)
 RUN apt-get update && apt-get install -y \
-    git unzip curl libzip-dev zip sqlite3
+    git \
+    unzip \
+    curl \
+    libzip-dev \
+    zip \
+    sqlite3 \
+    libsqlite3-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite zip
@@ -15,10 +21,10 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# ✅ Create .env file (VERY IMPORTANT)
+# Create .env file
 RUN cp .env.example .env || true
 
-# ✅ Create sqlite database
+# Create sqlite database
 RUN mkdir -p database && touch database/database.sqlite
 
 # Install Laravel dependencies
@@ -37,5 +43,5 @@ RUN php artisan view:clear || true
 
 EXPOSE 10000
 
-# Run Laravel
+# Run Laravel server
 CMD php -S 0.0.0.0:10000 -t public
