@@ -21,30 +21,30 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Create .env file (if not exists)
+# Create env file
 RUN cp .env.example .env || true
 
 # Create sqlite database
 RUN mkdir -p database && touch database/database.sqlite
 
-# Install Laravel dependencies
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Generate APP KEY
+# Generate key
 RUN php artisan key:generate --force
 
-# ✅ Run migrations (creates sessions table etc.)
+# Run migrations
 RUN php artisan migrate --force || true
 
 # Fix permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# ✅ Cache configs for production (IMPORTANT)
-RUN php artisan config:cache
-RUN php artisan route:cache || true
-RUN php artisan view:cache || true
+# ✅ IMPORTANT — CLEAR CACHE (NOT CACHE IT)
+RUN php artisan config:clear || true
+RUN php artisan route:clear || true
+RUN php artisan cache:clear || true
+RUN php artisan view:clear || true
 
 EXPOSE 10000
 
-# Run Laravel server
 CMD php -S 0.0.0.0:10000 -t public
