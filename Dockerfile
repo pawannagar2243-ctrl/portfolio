@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# Install system dependencies (FIXED)
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -33,15 +33,18 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 # Generate APP KEY
 RUN php artisan key:generate --force
 
+# ✅ RUN MIGRATIONS (VERY IMPORTANT FIX)
+RUN php artisan migrate --force || true
+
 # Fix permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# Clear caches safely
+# Clear caches
 RUN php artisan config:clear || true
 RUN php artisan cache:clear || true
 RUN php artisan view:clear || true
 
 EXPOSE 10000
 
-# Run Laravel server
+# Run Laravel
 CMD php -S 0.0.0.0:10000 -t public
