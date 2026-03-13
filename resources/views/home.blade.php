@@ -370,7 +370,7 @@
                 <div id="hero-card"
                     class="tilt-card relative w-full max-w-md aspect-[4/5] rounded-2xl glass-panel p-2 transition-transform duration-100 ease-out">
                     <div class="relative w-full h-full rounded-xl overflow-hidden bg-gray-900 border border-white/5">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        <img src="https://photos.app.goo.gl/6yWohy59cgqDwp1m8"
                             alt="Rakesh Nagar"
                             class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700">
 
